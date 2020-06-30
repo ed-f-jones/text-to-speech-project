@@ -75,5 +75,30 @@ function createBox(item){
     main.appendChild(box);
 }
 
+// store voices
+let voices = [];
+
+// get voices
+function getVoices() {
+    voices = speechSynthesis.getVoices();
+
+    voices.forEach(voice => {
+        const option = document.createElement('option');
+
+        option.value = voice.name;
+        option.innerText = `${voice.name} ${voice.lang}`;
+        voiceSelect.appendChild(option);
+    });
+}
+
+// voices changed
+speechSynthesis.addEventListener('voiceschanged', getVoices);
+
+
 // toggle text box
 toggleBtn.addEventListener('click', () => document.getElementById('text-box').classList.toggle('show'));
+
+//close btn
+closeBtn.addEventListener('click', () => document.getElementById('text-box').classList.remove('show'));
+
+getVoices();
