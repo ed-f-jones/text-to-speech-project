@@ -71,24 +71,49 @@ function createBox(item){
 
 
     // @todo speak event
+    box.addEventListener('click', ()=> {
+        setTextMessage(text);
+        speakText();
+
+        // active effect
+        box.classList.add('active');
+        setTimeout(() => {
+            box.classList.remove('active')
+        }, 800);
+    });
 
     main.appendChild(box);
-}
+};
+
+//init speech synthesis
+const message = new SpeechSynthesisUtterance();
 
 // store voices
 let voices = [];
 
 // get voices
 function getVoices() {
-    voices = speechSynthesis.getVoices();
+    voices =speechSynthesis.getVoices();
 
     voices.forEach(voice => {
         const option = document.createElement('option');
 
         option.value = voice.name;
-        option.innerText = `${voice.name} ${voice.lang}`;
+        option.innerText = `
+        ${voice.name} ${voice.lang}
+        `;
         voiceSelect.appendChild(option);
     });
+}
+
+// set text
+function setTextMessage(text) {
+    message.text = text;
+}
+
+// speak text
+function speakText() {
+    speechSynthesis.speak(message);
 }
 
 // voices changed
